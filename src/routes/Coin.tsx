@@ -18,6 +18,17 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
+const HomeButton = styled.button`
+  font-size: 25px;
+  width: 100px;
+  height: 50px;
+  border: none;
+  border-radius: 20px;
+  background-color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.textColor};
+  position: absolute;
+  right: 20px;
+`;
 
 const Overview = styled.div`
   display: flex;
@@ -64,7 +75,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
-      props.isActive ? props.theme.accentColor : props.theme.textColor};
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
@@ -131,15 +142,20 @@ interface PriceData {
 }
 
 function Coin() {
-
   const { coinId } = useParams();
   const { state } = useLocation() as RouteState;
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
 
-  const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId!));
-  const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers", coinId], () => fetchCoinTickers(coinId!));
-  
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(coinId!)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+    ["tickers", coinId],
+    () => fetchCoinTickers(coinId!)
+  );
+
   // const [loading, setLoading] = useState(true);
   // const [info, setInfo] = useState<InfoData>();
   // const [priceInfo, setPriceInfo] = useState<PriceData>();
@@ -159,11 +175,14 @@ function Coin() {
   // }, [coinId]);
 
   const loading = infoLoading || tickersLoading;
-  
+
   return (
     <Container>
       <Header>
         <Title>{state ? state : loading ? "Loading..." : infoData?.name}</Title>
+        <HomeButton>
+          <Link to="/">Home</Link>
+        </HomeButton>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -202,7 +221,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet />
+          <Outlet context={{ coinId }} />
         </>
       )}
     </Container>
