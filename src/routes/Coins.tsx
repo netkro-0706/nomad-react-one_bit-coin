@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
@@ -18,10 +18,11 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 15px;
+  border: 1px solid white;
   a {
     transition: color 0.2s ease-in;
     display: flex;
@@ -64,7 +65,6 @@ interface ICoin {
 }
 
 function Coins() {
-  
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
