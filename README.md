@@ -9,3 +9,4 @@ npm i --save-dev @types/react-router-dom
 npm install --save react-apexcharts apexcharts
 npm i react-helmet
 npm i --save-dev @types/react-helmet
+npm install recoil
